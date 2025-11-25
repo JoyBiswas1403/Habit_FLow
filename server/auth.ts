@@ -43,7 +43,7 @@ export function setupAuth(app: Express) {
         }),
         cookie: {
             secure: app.get("env") === "production",
-            sameSite: "lax", // Allow cookies for same-site (localhost/10.0.2.2 are treated loosely in dev)
+            sameSite: app.get("env") === "production" ? "none" : "lax",
             maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         },
     };

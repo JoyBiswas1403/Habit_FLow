@@ -1,9 +1,19 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    const message = `${res.status}: ${text}`;
+
+    // Show visible error to user
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: message,
+    });
+
+    throw new Error(message);
   }
 }
 

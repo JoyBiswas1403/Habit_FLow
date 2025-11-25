@@ -1,4 +1,5 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
+import useHashLocation from "@/hooks/useHashLocation";
 import { AnimatePresence } from "framer-motion";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -20,7 +21,8 @@ import TopBar from "@/components/TopBar";
 
 function Router() {
   const { isAuthenticated, isLoading, error } = useAuth();
-  const [location] = useLocation();
+  // useLocation is now provided by the parent WouterRouter with hash hook
+  const [location, setLocation] = useHashLocation();
 
   if (isLoading) {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
@@ -36,7 +38,6 @@ function Router() {
         <Route path="/auth" component={AuthPage} />
         <Route path="/" component={Landing} />
         <Route component={() => {
-          const [, setLocation] = useLocation();
           // Use useEffect to avoid updating state during render
           import("react").then(({ useEffect }) => {
             useEffect(() => setLocation("/auth"), [setLocation]);
@@ -63,7 +64,6 @@ function Router() {
               <Route path="/insights" component={Insights} />
               <Route path="/leaderboard" component={Leaderboard} />
               <Route path="/auth" component={() => {
-                const [, setLocation] = useLocation();
                 import("react").then(({ useEffect }) => {
                   useEffect(() => setLocation("/"), [setLocation]);
                 });
@@ -84,7 +84,9 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <WouterRouter hook={useHashLocation}>
+            <Router />
+          </WouterRouter>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
