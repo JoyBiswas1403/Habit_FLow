@@ -254,12 +254,14 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </>
+        )}
+      </div>
 
-        <AddHabitModal
-          open={showAddHabit}
-          onClose={() => setShowAddHabit(false)}
-        />
+      <AddHabitModal
+        open={showAddHabit}
+        onClose={() => setShowAddHabit(false)}
+      />
     </motion.div>
   );
 }
