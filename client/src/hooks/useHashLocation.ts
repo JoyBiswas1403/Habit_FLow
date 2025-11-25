@@ -1,4 +1,5 @@
-import { useLocation, useSyncExternalStore } from "wouter/use-location";
+import { useLocation } from "wouter";
+import { useSyncExternalStore } from "react";
 
 // returns the current hash location (minus the # symbol)
 const currentLoc = () => window.location.hash.replace(/^#/, "") || "/";
