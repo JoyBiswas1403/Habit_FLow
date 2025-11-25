@@ -16,6 +16,7 @@ import Timer from "@/pages/Timer";
 import Calendar from "@/pages/Calendar";
 import Insights from "@/pages/Insights";
 import Leaderboard from "@/pages/Leaderboard";
+import Profile from "@/pages/Profile";
 import Sidebar from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
 
@@ -63,6 +64,8 @@ function Router() {
               <Route path="/calendar" component={Calendar} />
               <Route path="/insights" component={Insights} />
               <Route path="/leaderboard" component={Leaderboard} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/settings" component={Profile} />
               <Route path="/auth" component={() => {
                 import("react").then(({ useEffect }) => {
                   useEffect(() => setLocation("/"), [setLocation]);

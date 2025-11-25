@@ -120,21 +120,23 @@ export default function TopBar() {
             <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-accent"></span>
           </Button>
 
-          <div className="flex items-center space-x-3">
-            <div className="hidden md:block text-right">
-              <p className="text-sm font-medium text-foreground" data-testid="text-user-name">
-                {user?.firstName} {user?.lastName}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Level {user?.level || 1} Achiever
-              </p>
+          <Link href="/profile">
+            <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity">
+              <div className="hidden md:block text-right">
+                <p className="text-sm font-medium text-foreground" data-testid="text-user-name">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Level {user?.level || 1} Achiever
+                </p>
+              </div>
+              <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
+                <span className="text-sm font-medium text-primary-foreground" data-testid="text-user-avatar">
+                  {user?.firstName?.[0]}{user?.lastName?.[0]}
+                </span>
+              </div>
             </div>
-            <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-sm font-medium text-primary-foreground" data-testid="text-user-avatar">
-                {user?.firstName?.[0]}{user?.lastName?.[0]}
-              </span>
-            </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

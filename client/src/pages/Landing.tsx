@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Clock, Target, TrendingUp, Users, Zap } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function Landing() {
+  const [, setLocation] = useLocation();
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -25,7 +27,7 @@ export default function Landing() {
                     <Button
                       size="lg"
                       className="w-full sm:w-auto"
-                      onClick={() => window.location.href = "/auth"}
+                      onClick={() => setLocation("/auth")}
                       data-testid="button-login"
                     >
                       Get Started Free
@@ -170,7 +172,7 @@ export default function Landing() {
           <Button
             size="lg"
             className="mt-8"
-            onClick={() => window.location.href = "/auth"}
+            onClick={() => setLocation("/auth")}
             data-testid="button-signup"
           >
             Sign Up Free
