@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuth } from "@/hooks/useAuth";
@@ -40,7 +40,15 @@ type AuthFormData = z.infer<typeof authSchema>;
 export default function AuthPage() {
     const { loginMutation, registerMutation, user } = useAuth();
     const [, setLocation] = useLocation();
-    const [isLogin, setIsLogin] = useState(true);
+
+    // Check URL for mode=register to show registration form by default
+    // With hash routing (useHashLocation), params are in the hash, not location.search
+    const hash = window.location.hash;
+    const searchIndex = hash.indexOf('?');
+    const searchString = searchIndex !== -1 ? hash.slice(searchIndex) : '';
+    const urlParams = new URLSearchParams(searchString);
+    const defaultMode = urlParams.get('mode') === 'register' ? false : true;
+    const [isLogin, setIsLogin] = useState(defaultMode);
 
     if (user) {
         setLocation("/");
@@ -158,7 +166,7 @@ function AuthForm({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="block text-sm font-bold mb-1">
-                                {isLogin ? "Email" : "Username"}
+                                Username
                             </FormLabel>
                             <FormControl>
                                 <div className="relative">
@@ -168,7 +176,7 @@ function AuthForm({
                                         style={{ color: 'var(--muted)' }}
                                     />
                                     <input
-                                        placeholder={isLogin ? "george@habitoid.com" : "Choose a username"}
+                                        placeholder="Choose a username"
                                         {...field}
                                         className="w-full pl-10 pr-4 py-2 border-2 rounded-xl focus:outline-none transition-colors"
                                         style={{
@@ -185,6 +193,44 @@ function AuthForm({
                         </FormItem>
                     )}
                 />
+
+                {/* Email field - only show for registration */}
+                {!isLogin && (
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="block text-sm font-bold mb-1">
+                                    Email
+                                </FormLabel>
+                                <FormControl>
+                                    <div className="relative">
+                                        <Mail
+                                            className="absolute left-3 top-3"
+                                            size={18}
+                                            style={{ color: 'var(--muted)' }}
+                                        />
+                                        <input
+                                            type="email"
+                                            placeholder="your@email.com"
+                                            {...field}
+                                            className="w-full pl-10 pr-4 py-2 border-2 rounded-xl focus:outline-none transition-colors"
+                                            style={{
+                                                borderColor: 'var(--border)',
+                                                backgroundColor: 'var(--bg)',
+                                                color: 'var(--text)'
+                                            }}
+                                            onFocus={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
+                                            onBlur={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                                        />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                )}
 
                 <FormField
                     control={form.control}
@@ -219,6 +265,42 @@ function AuthForm({
                     )}
                 />
 
+                {/* Confirm Password - only show for registration */}
+                {!isLogin && (
+                    <FormField
+                        control={form.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="block text-sm font-bold mb-1">Confirm Password</FormLabel>
+                                <FormControl>
+                                    <div className="relative">
+                                        <Lock
+                                            className="absolute left-3 top-3"
+                                            size={18}
+                                            style={{ color: 'var(--muted)' }}
+                                        />
+                                        <input
+                                            type="password"
+                                            placeholder="••••••••"
+                                            {...field}
+                                            className="w-full pl-10 pr-4 py-2 border-2 rounded-xl focus:outline-none transition-colors"
+                                            style={{
+                                                borderColor: 'var(--border)',
+                                                backgroundColor: 'var(--bg)',
+                                                color: 'var(--text)'
+                                            }}
+                                            onFocus={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
+                                            onBlur={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                                        />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                )}
+
                 {isLogin && (
                     <div className="flex justify-end">
                         <button
@@ -235,10 +317,10 @@ function AuthForm({
                 <button
                     type="submit"
                     className="w-full py-3 text-lg rounded-lg font-bold transition-all active:scale-95 mt-4"
-                    style={{ backgroundColor: 'var(--sidebar)', color: 'var(--bg)' }}
+                    style={{ backgroundColor: 'var(--primary)', color: 'white' }}
                     disabled={isLoading}
                 >
-                    {isLoading ? "Loading..." : "Log In"}
+                    {isLoading ? "Loading..." : (isLogin ? "Log In" : "Create Account")}
                 </button>
             </form>
         </Form>

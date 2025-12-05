@@ -1,7 +1,11 @@
 import { useSyncExternalStore } from "react";
 
 // returns the current hash location (minus the # symbol)
-const currentLoc = () => window.location.hash.replace(/^#/, "") || "/";
+const currentLoc = () => {
+    const hash = window.location.hash.replace(/^#/, "") || "/";
+    // Split query params to allow wouter to match base path
+    return hash.split("?")[0];
+};
 
 // Custom hook for hash-based routing with proper TypeScript types
 const useHashLocation = (): [string, (to: string) => void] => {

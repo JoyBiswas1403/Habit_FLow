@@ -1,13 +1,27 @@
 import { useLocation } from "wouter";
+import { useState } from "react";
 import { HabitoidLogo } from "@/components/HabitoidLogo";
 import { SlashCharacter } from "@/components/SlashCharacter";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 // Exact LandingPage from app.jsx
 export default function Landing() {
   const [, setLocation] = useLocation();
+  const [showDemo, setShowDemo] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center animate-in fade-in" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
+      {/* Demo Video Modal */}
+      <Dialog open={showDemo} onOpenChange={setShowDemo}>
+        <DialogContent className="sm:max-w-4xl p-0 overflow-hidden bg-black border-none">
+          <img
+            src="/demo/habitoid-demo.webp"
+            alt="Habitoid Demo"
+            className="w-full h-full object-contain"
+          />
+        </DialogContent>
+      </Dialog>
+
       <div className="max-w-4xl w-full">
         {/* Nav */}
         <nav className="flex justify-between items-center mb-20">
@@ -26,7 +40,7 @@ export default function Landing() {
               Log In
             </button>
             <button
-              onClick={() => setLocation("/auth")}
+              onClick={() => setLocation("/auth?mode=register")}
               className="px-4 py-2 rounded-lg font-bold transition-all active:scale-95 shadow-md"
               style={{ backgroundColor: 'var(--primary)', color: 'white' }}
               data-testid="button-login"
@@ -49,13 +63,14 @@ export default function Landing() {
             </p>
             <div className="flex gap-4">
               <button
-                onClick={() => setLocation("/auth")}
+                onClick={() => setLocation("/auth?mode=register")}
                 className="px-8 py-4 text-lg rounded-lg font-bold transition-all active:scale-95 shadow-md"
                 style={{ backgroundColor: 'var(--primary)', color: 'white' }}
               >
                 Start Tracking Free
               </button>
               <button
+                onClick={() => setShowDemo(true)}
                 className="px-8 py-4 text-lg rounded-lg font-bold transition-all active:scale-95 border-2"
                 style={{ borderColor: 'currentColor' }}
               >
