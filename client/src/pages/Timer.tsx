@@ -150,13 +150,17 @@ export default function Timer() {
         className="fixed inset-0 z-[200] flex flex-col items-center justify-center animate-in fade-in"
         style={{ backgroundColor: 'var(--sidebar)', color: 'white', animationDuration: '500ms' }}
       >
-        {/* Hidden YouTube iframe for audio */}
+        {/* Mini YouTube player in corner - visible so user can click play */}
         {currentSound !== 'none' && !isMuted && (
-          <iframe
-            src={AMBIENT_SOUNDS.find(s => s.id === currentSound)?.url}
-            className="hidden"
-            allow="autoplay"
-          />
+          <div className="absolute bottom-4 left-4 z-10 rounded-lg overflow-hidden shadow-lg">
+            <iframe
+              src={AMBIENT_SOUNDS.find(s => s.id === currentSound)?.url}
+              width="280"
+              height="158"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          </div>
         )}
 
         {/* Top controls */}
@@ -435,12 +439,18 @@ export default function Timer() {
           </div>
 
           {currentSound !== 'none' && (
-            <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: 'var(--accent-light)' }}>
-              <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                🎧 Playing: {AMBIENT_SOUNDS.find(s => s.id === currentSound)?.name}
-              </p>
-              <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                Audio plays in Focus Mode
+            <div className="mt-4">
+              <div className="rounded-lg overflow-hidden shadow-lg">
+                <iframe
+                  src={AMBIENT_SOUNDS.find(s => s.id === currentSound)?.url}
+                  width="100%"
+                  height="160"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                />
+              </div>
+              <p className="text-xs mt-2 text-center" style={{ color: 'var(--muted)' }}>
+                🎧 Click play above to start ambient sounds
               </p>
             </div>
           )}
