@@ -225,7 +225,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 ---
 
 <div align="center">
-  Made with ❤️ and ⚡ by the Habitoid Team
+  Made with ❤️ and ⚡ by the Joy Biswas
+
   
   **Meet Slash, your habit-building companion!**
 </div>
